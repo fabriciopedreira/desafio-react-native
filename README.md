@@ -1,6 +1,6 @@
-# Desafio 2
+# Desafio
 
-Crie uma aplicação do zero e configura as ferramentas: ESLint, Reactotron, Babel Root Import e EditorConfig. Nesse desafio você irá construir uma aplicação utilizando a API do Github para listar issues (questões) de um repositório. A interface da aplicação deve ser construída utilizando FlexBox e seguir conforme imagem abaixo:
+Crie um aplicativo do zero utilizando react-native(v60) e configure as ferramentas: ESLint e Jest. Nesse desafio você irá construir uma aplicação utilizando a API do Github para listar issues (questões) de um repositório. A interface da aplicação deve ser construída utilizando FlexBox e seguir conforme imagem abaixo:
 
 O app permitirá ao usuário inserir o nome de um repositório existente que será exibido na lista da primeira tela e clicando sobre os repositórios, poderá listar as issues pertencentes ao mesmo, além disso pode filtrar entre issues Abertas, fechadas ou todas. As duas páginas do app devem ser estilizadas como as seguintes imagens:
 
@@ -18,6 +18,8 @@ O app permitirá ao usuário inserir o nome de um repositório existente que ser
 - Ao clicar em uma issue, o usuário deve ser redirecionado para a URL da issue pelo navegador (https://facebook.github.io/react-native/docs/linking#openurl), não é preciso abrir a informação na tela do app;
 - As abas de status das issues não precisam utilizar React Navigation, você pode fazer apenas com botões `<TouchableOpacity>`;
 
+* O app devera possuir testes unitários para garantir a qualidade do código.
+
 ## Exemplos URL
 
 Repositório: https://api.github.com/repos/react-community/react-navigation
@@ -25,12 +27,4 @@ Issues: https://api.github.com/repos/react-community/react-navigation/issues
 
 ## Entrega
 
-Esse desafio **não precisa ser entregue** e não receberá correção, mas você pode ver o resultado do código do desafio feito por mim aqui: https://github.com/Rocketseat/bootcamp-react-native-desafio-02
-
-*PS.: Tente fazer o desafio sem olhar o código antes :)*
-
-*PS2.: Após concluir o desafio, adicionar esse código ao seu Github é uma boa forma de demonstrar seus conhecimentos para oportunidades futuras :D*
-
-Booooooora dev!!!
-
-“Para quem fica melhor a cada dia, ficar pronto é utopia”!
+O candidato devera levar na entrevista o app funcional + código fonte para discussão das estrategias utilizadas na codificação.
