@@ -2,7 +2,7 @@
 
 Crie um aplicativo do zero utilizando react-native(v60) e configure as ferramentas: ESLint e Jest. Nesse desafio você irá construir uma aplicação utilizando a API do Github para listar issues (questões) de um repositório. A interface da aplicação deve ser construída utilizando FlexBox e seguir conforme imagem abaixo:
 
-O app permitirá ao usuário inserir o nome de um repositório existente que será exibido na lista da primeira tela e clicando sobre os repositórios, poderá listar as issues pertencentes ao mesmo, além disso pode filtrar entre issues Abertas, fechadas ou todas. As duas páginas do app devem ser estilizadas como as seguintes imagens:
+O app permitirá ao usuário inserir o nome de um repositório existente que será exibido na lista da primeira tela e clicando sobre os repositórios, poderá listar as issues pertencentes ao mesmo, além disso pode filtrar entre issues Abertas, fechadas ou todas. As páginas do app devem ser estilizadas tendo como referência o seguinte exemplo:
 
 ![Telas](/assets/screens.png)
 
