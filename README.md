@@ -4,7 +4,7 @@ Crie um aplicativo do zero utilizando react-native(v60) e configure as ferrament
 
 O app permitirá ao usuário inserir o nome de um repositório existente que será exibido na lista da primeira tela e clicando sobre os repositórios, poderá listar as issues pertencentes ao mesmo, além disso pode filtrar entre issues Abertas, fechadas ou todas. As páginas do app devem ser estilizadas tendo como referência o seguinte exemplo:
 
-![Telas](/assets/screens.png)
+![Telas](screens.png)
 
 ## Regras
 
