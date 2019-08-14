@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ActivityIndicator } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import api from '../../services/api';
 
 import {
@@ -16,6 +17,7 @@ import {
   Title,
   Author,
 } from './styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class ListUser extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -39,8 +41,15 @@ export default class ListUser extends Component {
 
     const user = navigation.getParam('user');
 
-    const response = await api.get(`/users/${user.login}/starred`);
+    const response = await api.get(`/users/${user.login}/repos`);
+    console.log("response", response)
+
     this.setState({ stars: response.data, loading: false });
+  }
+
+  handleNavigate = (repo) => {
+    const { navigation } = this.props;
+    navigation.navigate('ListIssues', { repo });
   }
 
   render() {
@@ -70,6 +79,16 @@ export default class ListUser extends Component {
                     <Title>{item.name}</Title>
                     <Author>{item.owner.login}</Author>
                   </Info>
+
+                  {/* <ProfileButton onPress={() => this.handleNavigate(item)}>
+                    <ProfileButtonText>
+                      <Icon name="keyboard-arrow-right" size={25} color="#999" />
+                    </ProfileButtonText>
+                  </ProfileButton> */}
+
+                  <TouchableOpacity onPress={() => this.handleNavigate(item)}>
+                    <Icon name="keyboard-arrow-right" size={25} color="#999" />
+                  </TouchableOpacity>
                 </Starred>
               )}
             />

@@ -75,7 +75,9 @@ export const Bio = styled.Text.attrs({
   color: #999;
   margin-left: 10;
 `;
-export const ProfileButton = styled(RectButton)`
+export const ProfileButton = styled.TouchableOpacity`
+  width: 42;
+  height: 42;
   margin-top: 10px;
   align-self: stretch;
   border-radius: 4px;

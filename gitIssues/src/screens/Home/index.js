@@ -51,7 +51,7 @@ export default class Home extends Component {
       AsyncStorage.setItem('users', JSON.stringify(users));
     }
 
-   // AsyncStorage.clear();
+   //AsyncStorage.clear();
   }
 
   handleAddUser = async () => {
@@ -60,7 +60,10 @@ export default class Home extends Component {
 
     const response = await api.get(`/users/${newUser}`);
     console.tron.log("response", response)
-    console.log("response", response)
+
+    const respos = await api.get(`/users/${response.data.login}/repos`);
+    console.log("respos", respos)
+
 
     const data = {
       id: response.data.id,
@@ -89,7 +92,7 @@ export default class Home extends Component {
 
   onRefresh() {
     this.setState({ isFetching: true }, function() { this.handleAddUser()});
- }
+  }
 
   render() {
     const { users, newUser, loading } = this.state;
