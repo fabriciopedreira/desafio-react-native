@@ -3,7 +3,8 @@ import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 30px;
+  padding: 20px;
+  background: #f5f5f5;
 `;
 
 export const Form = styled.View`
@@ -18,7 +19,7 @@ export const Input = styled.TextInput.attrs({
 })`
   flex: 1;
   height: 40px;
-  background: #eee;
+  background: #FFF;
   border-radius: 4px;
   padding: 0 15px;
   border: 1px solid #eee;
@@ -27,7 +28,7 @@ export const Input = styled.TextInput.attrs({
 export const SubmitButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
-  background: #7159c1;
+  /* background: #7159c1; */
   border-radius: 4px;
   margin-left: 10px;
   padding: 0 12px;
@@ -41,21 +42,30 @@ export const List = styled.FlatList.attrs({
 `;
 
 export const User = styled.View`
+  background: #FFF;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  flex-direction: row;
   align-items: center;
-  margin: 0 20px 30px;
+  justify-content: space-between;
 `;
 export const Avatar = styled.Image`
-  width: 64px;
-  height: 64px;
-  border-radius: 32px;
+  height: 42px;
+  width: 42px;
+  border-radius: 21px;
   background: #eee;
 `;
-export const Name = styled.Text`
+export const Name = styled.Text.attrs({
+  numberOfLines: 1,
+  ellipsizeMode: 'tail',
+})`
   font-size: 14px;
   color: #333;
   font-weight: bold;
   margin-top: 5;
-  text-align: center;
+  margin-left: 10;
+
 `;
 export const Bio = styled.Text.attrs({
   numberOfLines: 2,
@@ -63,14 +73,12 @@ export const Bio = styled.Text.attrs({
   font-size: 13px;
   line-height: 18px;
   color: #999;
-  margin-top: 5px;
-  text-align: center;
+  margin-left: 10;
 `;
 export const ProfileButton = styled(RectButton)`
   margin-top: 10px;
   align-self: stretch;
   border-radius: 4px;
-  background: #7159c1;
   justify-content: center;
   align-items: center;
   height: 36px;

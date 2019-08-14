@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Keyboard, ActivityIndicator } from 'react-native';
+import { Keyboard, ActivityIndicator, View } from 'react-native';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -34,6 +34,7 @@ export default class Home extends Component {
     newUser: '',
     users: [],
     loading: false,
+    isFetching: false,
   }
 
   async componentDidMount() {
@@ -49,6 +50,8 @@ export default class Home extends Component {
     if (prevState.users !== users) {
       AsyncStorage.setItem('users', JSON.stringify(users));
     }
+
+   // AsyncStorage.clear();
   }
 
   handleAddUser = async () => {
@@ -57,11 +60,13 @@ export default class Home extends Component {
 
     const response = await api.get(`/users/${newUser}`);
     console.tron.log("response", response)
+    console.log("response", response)
 
     const data = {
+      id: response.data.id,
       name: response.data.name,
       login: response.data.login,
-      bio: response.data.bio,
+      company: response.data.company,
       avatar: response.data.avatar_url,
     };
 
@@ -69,15 +74,22 @@ export default class Home extends Component {
       users: [...users, data],
       newUser: '',
       loading: false,
+      isFetching: false,
     });
 
     Keyboard.dismiss();
+
+    //AsyncStorage.clear();
   }
 
   handleNavigate = (user) => {
     const { navigation } = this.props;
     navigation.navigate('ListUser', { user });
   }
+
+  onRefresh() {
+    this.setState({ isFetching: true }, function() { this.handleAddUser()});
+ }
 
   render() {
     const { users, newUser, loading } = this.state;
@@ -88,7 +100,7 @@ export default class Home extends Component {
           <Input
             autoCorrect={false}
             autoCapitaliza="none"
-            placeholder="Adicionar usúario"
+            placeholder="Adicionar novo repositório"
             value={newUser}
             onChangeText={text => this.setState({ newUser: text })}
             returnKeyType="send"
@@ -99,7 +111,7 @@ export default class Home extends Component {
               loading ? (
                 <ActivityIndicator color="#FFF" />
               ) : (
-                <Icon name="add" size={20} color="#FFF" />
+                <Icon name="add" size={20} color="#000" />
               )
             }
           </SubmitButton>
@@ -108,14 +120,22 @@ export default class Home extends Component {
         <List
           data={users}
           keyExtractor={user => user.login}
+          onRefresh={() => this.onRefresh()}
+          refreshing={this.state.isFetching}
           renderItem={( { item } ) => (
             <User>
-              <Avatar source={{ uri: item.avatar }} />
-              <Name>{item.name}</Name>
-              <Bio>{item.bio}</Bio>
+              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <Avatar source={{ uri: item.avatar }} />
+                <View style={{ maxWidth: '80%', }}>
+                  <Name>{item.name}</Name>
+                  <Bio>{item.company}</Bio>
+                </View>
+              </View>
 
               <ProfileButton onPress={() => this.handleNavigate(item)}>
-                <ProfileButtonText>Ver Perfil</ProfileButtonText>
+                <ProfileButtonText>
+                  <Icon name="keyboard-arrow-right" size={25} color="#999" />
+                </ProfileButtonText>
               </ProfileButton>
             </User>
           )}
