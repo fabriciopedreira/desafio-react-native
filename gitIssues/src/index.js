@@ -7,9 +7,12 @@
  */
 
 import React from 'react';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import './config/ReactotronConfig';
 import Routes from './routes';
+
+Icon.loadFont();
 
 const App = () => {
   return (
