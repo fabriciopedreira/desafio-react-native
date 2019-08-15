@@ -24,6 +24,8 @@
     "@babel/core": "^7.5.5",
     "@babel/runtime": "^7.5.5",
     "@react-native-community/eslint-config": "^0.0.5",
+    "@testing-library/react-native": "^4.0.7",
+    "@types/jest": "^24.0.17",
     "babel-jest": "^24.8.0",
     "eslint": "^6.1.0",
     "install": "^0.13.0",
@@ -35,6 +37,17 @@
     "react-test-renderer": "16.8.6"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "@testing-library/react-native",
+    "transformIgnorePatterns": ["node_modules/(?!(@react-native-community|react-native)/)"],
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "!src/service/api.js"
+    ],
+    "coverageDirectory": "__tests__/coverage",
+    "moduleNameMapper": {
+      "ˆ~/(.*)": "<rootDir>/src/$1"
+    }
   }
 }
