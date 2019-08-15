@@ -3,11 +3,12 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   padding: 30px;
+  background: #f5f5f5;
 `;
 
 export const Header = styled.View`
   align-items: center;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   border-bottom-width: 1px;
   border-color: #eee;
 `;
@@ -42,7 +43,7 @@ export const Stars = styled.FlatList.attrs({
 `;
 
 export const Starred = styled.View`
-  background: #f5f5f5;
+  background: #FFF;
   border-radius: 4px;
   padding: 10px 15px;
   margin-bottom: 20px;

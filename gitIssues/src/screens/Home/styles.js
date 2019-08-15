@@ -91,3 +91,12 @@ export const ProfileButtonText = styled.Text`
   color: #fff;
   text-transform: uppercase;
 `;
+
+export const ViewAvatar = styled.View`
+  flex-direction: row;
+  justify-content: center;
+`;
+
+export const ViewAvatarBio = styled.View`
+  max-width: 80%;
+`;

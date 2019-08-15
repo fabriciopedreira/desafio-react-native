@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Keyboard, ActivityIndicator, View } from 'react-native';
+import { Keyboard, ActivityIndicator, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -15,8 +15,8 @@ import {
   Avatar,
   Name,
   Bio,
-  ProfileButton,
-  ProfileButtonText,
+  ViewAvatar,
+  ViewAvatarBio,
 } from './styles';
 
 export default class Home extends Component {
@@ -34,7 +34,7 @@ export default class Home extends Component {
     newUser: '',
     users: [],
     loading: false,
-    isFetching: false,
+    refreshing: false,
   }
 
   async componentDidMount() {
@@ -50,38 +50,37 @@ export default class Home extends Component {
     if (prevState.users !== users) {
       AsyncStorage.setItem('users', JSON.stringify(users));
     }
-
-   //AsyncStorage.clear();
+    //AsyncStorage.clear();
   }
 
   handleAddUser = async () => {
     const { users, newUser } = this.state;
-    this.setState({ loading: true });
 
-    const response = await api.get(`/users/${newUser}`);
-    console.tron.log("response", response)
+    if (newUser !== '') {
+      this.setState({ loading: true, refreshing: true });
 
-    const respos = await api.get(`/users/${response.data.login}/repos`);
-    console.log("respos", respos)
+      const response = await api.get(`/users/${newUser}`);
 
+      const data = {
+        id: response.data.id,
+        name: response.data.name,
+        login: response.data.login,
+        company: response.data.company,
+        avatar: response.data.avatar_url,
+      };
 
-    const data = {
-      id: response.data.id,
-      name: response.data.name,
-      login: response.data.login,
-      company: response.data.company,
-      avatar: response.data.avatar_url,
-    };
+      this.setState({
+        users: [...users, data],
+        newUser: '',
+        loading: false,
+        refreshing: false,
+      });
 
-    this.setState({
-      users: [...users, data],
-      newUser: '',
-      loading: false,
-      isFetching: false,
-    });
-
-    Keyboard.dismiss();
-
+      Keyboard.dismiss();
+      //AsyncStorage.clear();
+    } else {
+      this.setState({ loading: false, refreshing: false });
+    }
     //AsyncStorage.clear();
   }
 
@@ -91,11 +90,11 @@ export default class Home extends Component {
   }
 
   onRefresh() {
-    this.setState({ isFetching: true }, function() { this.handleAddUser()});
+    this.setState({ refreshing: true }, function() { this.handleAddUser();});
   }
 
   render() {
-    const { users, newUser, loading } = this.state;
+    const { users, newUser, loading, refreshing } = this.state;
 
     return (
       <Container>
@@ -112,7 +111,7 @@ export default class Home extends Component {
           <SubmitButton loading={loading} onPress={this.handleAddUser}>
             {
               loading ? (
-                <ActivityIndicator color="#FFF" />
+                <ActivityIndicator color="#999" />
               ) : (
                 <Icon name="add" size={20} color="#000" />
               )
@@ -123,24 +122,21 @@ export default class Home extends Component {
         <List
           data={users}
           keyExtractor={user => user.login}
-          onRefresh={() => this.onRefresh()}
-          refreshing={this.state.isFetching}
+          onRefresh={() => this.handleAddUser()}
+          refreshing={refreshing}
           renderItem={( { item } ) => (
-            <User>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <Avatar source={{ uri: item.avatar }} />
-                <View style={{ maxWidth: '80%', }}>
-                  <Name>{item.name}</Name>
-                  <Bio>{item.company}</Bio>
-                </View>
-              </View>
-
-              <ProfileButton onPress={() => this.handleNavigate(item)}>
-                <ProfileButtonText>
-                  <Icon name="keyboard-arrow-right" size={25} color="#999" />
-                </ProfileButtonText>
-              </ProfileButton>
-            </User>
+            <TouchableOpacity onPress={() => this.handleNavigate(item)}>
+              <User>
+                <ViewAvatar>
+                  <Avatar source={{ uri: item.avatar }} />
+                  <ViewAvatarBio>
+                    <Name>{item.name}</Name>
+                    <Bio>{item.company}</Bio>
+                  </ViewAvatarBio>
+                </ViewAvatar>
+                <Icon name="keyboard-arrow-right" size={25} color="#999" />
+              </User>
+            </TouchableOpacity>
           )}
         />
       </Container>

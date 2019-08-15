@@ -33,18 +33,26 @@ export default class ListUser extends Component {
   state = {
     stars: [],
     loading: false,
+    refreshing: false,
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.handleAddUser();
+  }
+
+  handleAddUser = async () => {
     const { navigation } = this.props;
-    this.setState({ loading: true });
+    this.setState({ loading: true, refreshing: true });
 
     const user = navigation.getParam('user');
 
     const response = await api.get(`/users/${user.login}/repos`);
-    console.log("response", response)
 
-    this.setState({ stars: response.data, loading: false });
+    this.setState({ stars: response.data, loading: false, refreshing: false });
+  }
+
+  onRefresh() {
+    this.setState({ refreshing: true }, function() { this.handleAddUser() } );
   }
 
   handleNavigate = (repo) => {
@@ -54,7 +62,7 @@ export default class ListUser extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { stars, loading } = this.state;
+    const { stars, loading, refreshing } = this.state;
 
     const user = navigation.getParam('user');
 
@@ -72,24 +80,19 @@ export default class ListUser extends Component {
             <Stars
               data={stars}
               keyExtractor={star => String(star.id)}
+              onRefresh={() => this.handleAddUser()}
+              refreshing={refreshing}
               renderItem={( { item }) => (
-                <Starred>
-                  <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
-                  <Info>
-                    <Title>{item.name}</Title>
-                    <Author>{item.owner.login}</Author>
-                  </Info>
-
-                  {/* <ProfileButton onPress={() => this.handleNavigate(item)}>
-                    <ProfileButtonText>
-                      <Icon name="keyboard-arrow-right" size={25} color="#999" />
-                    </ProfileButtonText>
-                  </ProfileButton> */}
-
-                  <TouchableOpacity onPress={() => this.handleNavigate(item)}>
+                <TouchableOpacity onPress={() => this.handleNavigate(item)}>
+                  <Starred>
+                    <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
+                    <Info>
+                      <Title>{item.name}</Title>
+                      <Author>{item.owner.login}</Author>
+                    </Info>
                     <Icon name="keyboard-arrow-right" size={25} color="#999" />
-                  </TouchableOpacity>
-                </Starred>
+                  </Starred>
+                </TouchableOpacity>
               )}
             />
           )

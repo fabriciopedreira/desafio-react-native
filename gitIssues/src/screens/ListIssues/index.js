@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, ActivityIndicator } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { ActivityIndicator } from 'react-native';
 import api from '../../services/api';
 
 import {
   Container,
-  Header,
-  Avatar,
-  Name,
-  Bio,
+  TextFilter,
   Stars,
   Starred,
   OwnerAvatar,
   Info,
   Title,
   Author,
+  TextMessage,
+  ViewButtonFilters,
+  TextFilterActive,
 } from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -36,12 +35,20 @@ export default class ListIssues extends Component {
     owner: this.props.navigation.getParam('repo').owner.login,
     title: this.props.navigation.getParam('repo').name,
     filter: 'all',
+    refreshing: false,
   }
 
   async componentDidMount() {
+    this.handleAddUser()
+  }
+
+  handleAddUser = async () => {
     const issues = await api.get(`/repos/${this.state.owner}/${this.state.title}/issues`);
-    console.log("issues", issues);
     this.setState({ issues: issues.data, loading: false });
+  }
+
+  onRefresh() {
+    this.setState({ refreshing: true }, function() { this.handleAddUser(); } );
   }
 
   handleNavigate = (user) => {
@@ -58,10 +65,7 @@ export default class ListIssues extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    const { issues, loading } = this.state;
-
-    //const user = navigation.getParam('user');
+    const { issues, loading, filter, refreshing } = this.state;
 
     return (
       <Container>
@@ -69,30 +73,36 @@ export default class ListIssues extends Component {
           loading ? (
             <ActivityIndicator color="#7159c1" size='large' />
           ) :
-            issues.length === 0 ? <Text>Esse repositório não possui issues até o momento.</Text> :
+            issues.length === 0 ? <TextMessage>Esse repositório não possui issues até o momento.</TextMessage> :
           (
             <>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+            <ViewButtonFilters>
               <TouchableOpacity onPress={() => this.changeFilter('all')}>
-                <Text>Todos</Text>
+                {
+                  filter === 'all' ? <TextFilter>Todas</TextFilter> : <TextFilterActive>Todas</TextFilterActive>
+                }
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.changeFilter('open')}>
-                <Text>Abertas</Text>
+                {
+                  filter === 'open' ? <TextFilter>Abertas</TextFilter> : <TextFilterActive>Abertas</TextFilterActive>
+                }
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.changeFilter('closed')}>
-                <Text>Fechadas</Text>
+                {
+                  filter === 'close' ? <TextFilter>Fechadas</TextFilter> : <TextFilterActive>Fechadas</TextFilterActive>
+                }
               </TouchableOpacity>
-            </View>
-
+            </ViewButtonFilters>
             {
               this.state.filter !== 'all' && issues.filter(this.filter).length < 1 ?
-                <Text>Não encontramos issues com status: {this.state.filter}</Text>
+                <TextMessage>Não encontramos issues com status: {this.state.filter}</TextMessage>
               : null
             }
-
             <Stars
               data={issues.filter(this.filter)}
               keyExtractor={issues => String(issues.id)}
+              onRefresh={() => this.handleAddUser()}
+              refreshing={refreshing}
               renderItem={( { item }) => (
                 <Starred>
                   <OwnerAvatar source={{ uri: item.user.avatar_url }} />
@@ -100,9 +110,6 @@ export default class ListIssues extends Component {
                     <Title>{item.title}</Title>
                     <Author>{item.state}</Author>
                   </Info>
-                  <TouchableOpacity onPress={() => this.handleNavigate(item)}>
-                    <Icon name="keyboard-arrow-right" size={25} color="#999" />
-                  </TouchableOpacity>
                 </Starred>
               )}
             />

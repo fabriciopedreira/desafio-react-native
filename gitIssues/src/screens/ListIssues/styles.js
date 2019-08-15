@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   padding: 30px;
+  background: #eee;
 `;
 
 export const Header = styled.View`
@@ -42,7 +43,7 @@ export const Stars = styled.FlatList.attrs({
 `;
 
 export const Starred = styled.View`
-  background: #f5f5f5;
+  background: #FFF;
   border-radius: 4px;
   padding: 10px 15px;
   margin-bottom: 20px;
@@ -75,3 +76,30 @@ export const Author = styled.Text`
   color: #666;
   margin-top: 2px;
 `;
+
+export const TextMessage = styled.Text`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #7159c1;
+  margin-top: 2px;
+`;
+
+export const ViewButtonFilters = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #999;
+  height: 35;
+  align-items: center;
+  border-radius: 5;
+`;
+
+export const TextFilter = styled.Text`
+  color: #333;
+`;
+
+export const TextFilterActive = styled.Text`
+  color: #ccc;
+`;
+
