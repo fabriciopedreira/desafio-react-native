@@ -60,6 +60,7 @@ export default class Home extends Component {
       this.setState({ loading: true, refreshing: true });
 
       const response = await api.get(`/users/${newUser}`);
+      console.log("response", response)
 
       const data = {
         id: response.data.id,
@@ -95,6 +96,7 @@ export default class Home extends Component {
 
   render() {
     const { users, newUser, loading, refreshing } = this.state;
+    console.log("users", users)
 
     return (
       <Container>

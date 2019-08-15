@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Linking } from 'react-native';
 import api from '../../services/api';
 
 import {
@@ -93,30 +93,31 @@ export default class ListIssues extends Component {
                 }
               </TouchableOpacity>
             </ViewButtonFilters>
-            {
-              this.state.filter !== 'all' && issues.filter(this.filter).length < 1 ?
-                <TextMessage>Não encontramos issues com status: {this.state.filter}</TextMessage>
-              : null
-            }
-            <Stars
-              data={issues.filter(this.filter)}
-              keyExtractor={issues => String(issues.id)}
-              onRefresh={() => this.handleAddUser()}
-              refreshing={refreshing}
-              renderItem={( { item }) => (
-                <Starred>
-                  <OwnerAvatar source={{ uri: item.user.avatar_url }} />
-                  <Info>
-                    <Title>{item.title}</Title>
-                    <Author>{item.state}</Author>
-                  </Info>
-                </Starred>
-              )}
-            />
+              {
+                this.state.filter !== 'all' && issues.filter(this.filter).length < 1 ?
+                  <TextMessage>Não encontramos issues com status: {this.state.filter}</TextMessage>
+                : null
+              }
+              <Stars
+                data={issues.filter(this.filter)}
+                keyExtractor={issues => String(issues.id)}
+                onRefresh={() => this.handleAddUser()}
+                refreshing={refreshing}
+                renderItem={( { item }) => (
+                  <TouchableOpacity onPress={ ()=>{ Linking.openURL(item.html_url);}}>
+                    <Starred>
+                      <OwnerAvatar source={{ uri: item.user.avatar_url }} />
+                      <Info>
+                        <Title>{item.title}</Title>
+                        <Author>{item.state}</Author>
+                      </Info>
+                    </Starred>
+                  </TouchableOpacity>
+                )}
+              />
             </>
           )
         }
-
       </Container>
     );
   }
