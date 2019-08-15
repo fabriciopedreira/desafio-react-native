@@ -17,6 +17,7 @@ import {
   Bio,
   ViewAvatar,
   ViewAvatarBio,
+  DeleteUser,
 } from './styles';
 
 export default class Home extends Component {
@@ -94,6 +95,11 @@ export default class Home extends Component {
     this.setState({ refreshing: true }, function() { this.handleAddUser();});
   }
 
+  deleteUser = () => {
+    AsyncStorage.clear();
+    this.setState({ users: [] })
+  }
+
   render() {
     const { users, newUser, loading, refreshing } = this.state;
     console.log("users", users)
@@ -115,10 +121,13 @@ export default class Home extends Component {
               loading ? (
                 <ActivityIndicator color="#999" />
               ) : (
-                <Icon name="add" size={20} color="#000" />
+                <Icon name="add" size={25} color="#000" />
               )
             }
           </SubmitButton>
+          <DeleteUser onPress={this.deleteUser}>
+            <Icon name="delete" size={25} color="#ef6464" />
+          </DeleteUser>
         </Form>
 
         <List

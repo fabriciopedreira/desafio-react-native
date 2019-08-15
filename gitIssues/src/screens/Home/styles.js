@@ -30,8 +30,8 @@ export const SubmitButton = styled(RectButton)`
   align-items: center;
   /* background: #7159c1; */
   border-radius: 4px;
-  margin-left: 10px;
-  padding: 0 12px;
+  margin-left: 15px;
+  padding: 0 10px;
   opacity: ${props => props.loading ? 0.7 : 1};
 `;
 
@@ -100,3 +100,13 @@ export const ViewAvatar = styled.View`
 export const ViewAvatarBio = styled.View`
   max-width: 80%;
 `;
+
+export const DeleteUser = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+  /* background: #7159c1; */
+  border-radius: 4px;
+  padding: 0 10px;
+  margin-right: -15;
+  opacity: ${props => props.loading ? 0.7 : 1};
+`
