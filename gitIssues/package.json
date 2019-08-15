@@ -38,7 +38,10 @@
   },
   "jest": {
     "preset": "@testing-library/react-native",
-    "transformIgnorePatterns": ["node_modules/(?!(@react-native-community|react-native)/)"],
+    "setupFiles": ["./__mocks__/jestSetupFile.js"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@react-native-community|react-native|react-native-vector-icons|react-navigation|react-native-gesture-handler)/)"
+    ],
     "testMatch": [
       "**/__tests__/**/*.test.js"
     ],

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Keyboard, ActivityIndicator, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-community/async-storage';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import MyIcon from 'react-native-vector-icons/MaterialIcons';
 import api from '../../services/api';
 
 import {
@@ -122,12 +122,12 @@ export default class Home extends Component {
               loading ? (
                 <ActivityIndicator color="#999" />
               ) : (
-                <Icon name="add" size={25} color="#000" />
+                <MyIcon name="add" size={25} color="#000" />
               )
             }
           </SubmitButton>
           <DeleteUser onPress={this.deleteUser}>
-            <Icon name="delete" size={25} color="#ef6464" />
+            <MyIcon name="delete" size={25} color="#ef6464" />
           </DeleteUser>
         </Form>
 
@@ -146,7 +146,7 @@ export default class Home extends Component {
                     <Bio>{item.company}</Bio>
                   </ViewAvatarBio>
                 </ViewAvatar>
-                <Icon name="keyboard-arrow-right" size={25} color="#999" />
+                <MyIcon name="keyboard-arrow-right" size={25} color="#999" />
               </User>
             </TouchableOpacity>
           )}
