@@ -40,6 +40,7 @@ export default class Home extends Component {
 
   async componentDidMount() {
     const users = await AsyncStorage.getItem('users');
+    console.log("date", new Date(1565848714 * 1000))
 
     if (users) {
       this.setState({ users: JSON.parse(users) });
